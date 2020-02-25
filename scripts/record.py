@@ -2,6 +2,7 @@ import sounddevice as sd
 import soundfile as sf
 import queue
 import datetime;
+import sys
 
 q = queue.Queue()
 
@@ -11,7 +12,8 @@ def callback(indata, frames, time, status):
         print(status)
     q.put(indata.copy())
 
-fileName=datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + '.wav'
+fileName= datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+filePath='./audios/wav/' + fileName + '.wav'
 mode='x'
 channels=1
 device=8
@@ -20,13 +22,18 @@ device_info = sd.query_devices(device, 'input')
 samplerate = int(device_info['default_samplerate'])
 
 try:
-  with sf.SoundFile(fileName, mode=mode, samplerate=samplerate, channels=channels) as file:
+  with sf.SoundFile(filePath, mode=mode, samplerate=samplerate, channels=channels) as file:
     with sd.InputStream(samplerate=samplerate, device=device, channels=channels, callback=callback):
+      print('Start recording')
+      print('File: ' + fileName)
+      sys.stdout.flush()
       while True:
         file.write(q.get())
 except KeyboardInterrupt:
-    print('\nRecording finished: ' + fileName)
+    print('\nRecording finished: ' + filePath)
+    sys.stdout.flush()
     exit()
 except Exception as e:
     print(e)
+    sys.stdout.flush()
     exit()
