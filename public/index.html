@@ -5,31 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Record</title>
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/vue-material/dist/vue-material.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/vue-material/dist/theme/default.css"
+    />
+
+    <style>
+      .record-container {
+        text-align: center;
+        min-width: 400px;
+      }
+
+      .record-list {
+        margin-top: 2em;
+      }
+
+      .txt-center {
+        text-align: center;
+      }
+    </style>
   </head>
   <body>
-    <h1>Record</h1>
-    <button onclick="startRecord()">
-      start
-    </button>
-    <button onclick="stopRecord()">
-      stop
-    </button>
+    <div id="app">
+      <div class="md-layout md-gutter md-alignment-center">
+        <div class="record-container">
+          <h1>Record</h1>
+          <md-button
+            v-on:click="startRecord"
+            class="md-fab md-primary"
+            v-bind:disabled="isRecording"
+          >
+            <md-icon>play_arrow</md-icon>
+          </md-button>
+
+          <md-button
+            v-on:click="stopRecord"
+            class="md-fab md-primary"
+            v-bind:disabled="!isRecording"
+          >
+            <md-icon>stop</md-icon>
+          </md-button>
+
+          <p v-if="isRecording">Gravando...</p>
+
+          <div class="record-list md-elevation-8">
+            <md-list>
+              <md-list-item v-for="record in records">
+                <div class="md-list-item-text">
+                  <span>{{ record.name }}</span>
+                  <p>{{ record.date }}</p>
+                </div>
+                <md-button class="md-icon-button md-list-action">
+                  <md-icon class="md-primary">cloud_download</md-icon>
+                </md-button>
+              </md-list-item>
+            </md-list>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-material"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
-    <script>
-      const socket = io('http://localhost:3000');
-
-      function startRecord() {
-        socket.emit('startRecord', 'HELLO WORLD');
-      }
-
-      function stopRecord() {
-        socket.emit('stopRecord', 'by WORLD');
-      }
-
-      socket.on('recording', function(data) {
-        console.log('recording', data);
-      });
-    </script>
+    <script src="./js/app.js"></script>
   </body>
 </html>

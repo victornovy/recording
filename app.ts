@@ -13,6 +13,7 @@ var server = http.listen(3000, () => {
 
 var currentProcess;
 
+// TODO: Refatorar
 io.on('connection', function(socket: any) {
   console.log('a user connected');
 
@@ -44,6 +45,7 @@ io.on('connection', function(socket: any) {
     if (currentProcess) {
       currentProcess.kill();
     }
+    currentProcess = null;
 
     socket.emit('recording', {
       recording: false
