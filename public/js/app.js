@@ -4,23 +4,29 @@ var app = new Vue({
   el: '#app',
   data: {
     isRecording: false,
-    records: [{ name: 'Teste', date: '2020-01-01' }]
+    recordings: [{ name: 'Teste', date: '2020-01-01' }]
   },
   methods: {
-    startRecord: () => {
-      console.log('startRecord');
+    startRecording: () => {
+      console.log('startRecording');
       app.isRecording = true;
 
-      // socket.emit('startRecord', 'HELLO WORLD');
+      socket.emit('startRecording', 'HELLO WORLD');
     },
-    stopRecord: () => {
-      console.log('stopRecord');
+    stopRecording: () => {
+      console.log('stopRecording');
       app.isRecording = false;
-      // socket.emit('stopRecord', 'by WORLD');
+      socket.emit('stopRecording', 'by WORLD');
+    },
+    getList: recordings => {
+      app.recordings = recordings;
     },
     recording: data => {
       app.isRecording = data.recording;
       console.log('recording', data);
+    },
+    download: recording => {
+      console.log(recording);
     }
   }
 });
@@ -28,3 +34,4 @@ var app = new Vue({
 const socket = io(window.location.origin);
 
 socket.on('recording', app.recording);
+socket.on('list', app.getList);

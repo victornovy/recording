@@ -16,7 +16,7 @@ fileName= datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 filePath='./audios/wav/' + fileName + '.wav'
 mode='x'
 channels=1
-device=8
+device=6
 
 device_info = sd.query_devices(device, 'input')
 samplerate = int(device_info['default_samplerate'])

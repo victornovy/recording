@@ -11,24 +11,24 @@ var server = http.listen(3000, () => {
   console.log('server is running on port', server.address().port);
 });
 
-var currentProcess;
+var currentProcess: any;
 
 // TODO: Refatorar
 io.on('connection', function(socket: any) {
   console.log('a user connected');
 
-  socket.on('startRecord', function(data) {
-    currentProcess = spawn('python', ['./scripts/record.py']);
+  socket.on('startRecording', (data: any) => {
+    currentProcess = spawn('python', ['./scripts/recording.py']);
 
-    currentProcess.stdout.on('data', data => {
+    currentProcess.stdout.on('data', (data: any) => {
       console.log(`stdout: ${data}`);
     });
 
-    currentProcess.stderr.on('data', data => {
+    currentProcess.stderr.on('data', (data: any) => {
       console.error(`stderr: ${data}`);
     });
 
-    currentProcess.on('close', code => {
+    currentProcess.on('close', (code: any) => {
       console.log(`child process exited with code ${code}`);
     });
 
@@ -41,7 +41,7 @@ io.on('connection', function(socket: any) {
     recording: !!currentProcess
   });
 
-  socket.on('stopRecord', function() {
+  socket.on('stopRecording', function() {
     if (currentProcess) {
       currentProcess.kill();
     }

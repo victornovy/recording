@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Record</title>
+    <title>Recording</title>
 
     <link
       rel="stylesheet"
@@ -20,12 +20,14 @@
     />
 
     <style>
-      .record-container {
+      .recording-container {
         text-align: center;
-        min-width: 400px;
+        min-width: 100%;
+        max-width: 400%;
+        padding: 1em;
       }
 
-      .record-list {
+      .recording-list {
         margin-top: 2em;
       }
 
@@ -37,10 +39,10 @@
   <body>
     <div id="app">
       <div class="md-layout md-gutter md-alignment-center">
-        <div class="record-container">
-          <h1>Record</h1>
+        <div class="recording-container">
+          <h1>Recording</h1>
           <md-button
-            v-on:click="startRecord"
+            v-on:click="startRecording"
             class="md-fab md-primary"
             v-bind:disabled="isRecording"
           >
@@ -48,7 +50,7 @@
           </md-button>
 
           <md-button
-            v-on:click="stopRecord"
+            v-on:click="stopRecording"
             class="md-fab md-primary"
             v-bind:disabled="!isRecording"
           >
@@ -57,14 +59,17 @@
 
           <p v-if="isRecording">Gravando...</p>
 
-          <div class="record-list md-elevation-8">
+          <div class="recording-list md-elevation-3">
             <md-list>
-              <md-list-item v-for="record in records">
+              <md-list-item v-for="recording in recordings">
                 <div class="md-list-item-text">
-                  <span>{{ record.name }}</span>
-                  <p>{{ record.date }}</p>
+                  <span>{{ recording.name }}</span>
+                  <p>{{ recording.date }}</p>
                 </div>
-                <md-button class="md-icon-button md-list-action">
+                <md-button
+                  class="md-icon-button md-list-action"
+                  v-on:click="download(recording)"
+                >
                   <md-icon class="md-primary">cloud_download</md-icon>
                 </md-button>
               </md-list-item>
