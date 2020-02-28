@@ -7,6 +7,7 @@ const http = require('http').Server(app);
 let io = require('socket.io')(http);
 
 app.use(express.static('public'));
+app.use(express.static('audios/mp3'));
 
 var server = http.listen(3000, () => {
   console.log('server is running on port', server.address().port);
@@ -31,7 +32,7 @@ const getList = () => {
   return files;
 };
 
-const convert = () => {
+const convert = (socket: any) => {
   const convert = spawn('bash', [
     './scripts/convertToMp3.sh',
     `./audios/wav/${infoFile.name}.wav`,
@@ -48,6 +49,8 @@ const convert = () => {
 
   convert.on('close', (code: any) => {
     console.log(`exit convert ${code}`);
+
+    socket.emit('list', getList());
   });
 };
 
@@ -90,7 +93,7 @@ io.on('connection', function(socket: any) {
 
     currentProcess = null;
 
-    convert();
+    convert(socket);
 
     socket.emit('recording', {
       recording: false

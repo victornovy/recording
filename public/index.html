@@ -75,8 +75,10 @@
                   <p>{{ recording.date }}</p>
                 </div>
                 <md-button
+                  v-bind:href="recording.file"
                   class="md-icon-button md-list-action"
                   v-on:click="download(recording)"
+                  download
                 >
                   <md-icon class="md-primary">cloud_download</md-icon>
                 </md-button>
