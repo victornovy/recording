@@ -41,50 +41,48 @@
     </style>
   </head>
   <body>
-    <div id="app">
-      <div class="md-layout md-gutter md-alignment-center">
-        <div class="recording-container">
-          <h1>Recording</h1>
-          <md-button
-            v-on:click="startRecording"
-            class="md-fab md-primary"
-            v-bind:disabled="isRecording"
-          >
-            <md-icon>play_arrow</md-icon>
-          </md-button>
+    <div id="app" class="md-layout md-alignment-center">
+      <div class="recording-container">
+        <h1>Recording</h1>
+        <md-button
+          v-on:click="startRecording"
+          class="md-fab md-primary"
+          v-bind:disabled="isRecording"
+        >
+          <md-icon>play_arrow</md-icon>
+        </md-button>
 
-          <md-button
-            v-on:click="stopRecording"
-            class="md-fab md-primary"
-            v-bind:disabled="!isRecording"
-          >
-            <md-icon>stop</md-icon>
-          </md-button>
+        <md-button
+          v-on:click="stopRecording"
+          class="md-fab md-primary"
+          v-bind:disabled="!isRecording"
+        >
+          <md-icon>stop</md-icon>
+        </md-button>
 
-          <p v-if="isRecording">Gravando...</p>
+        <p v-if="isRecording">Gravando...</p>
 
-          <div class="recording-list md-elevation-3">
-            <p class="recording--no-register" v-if="recordings.length === 0">
-              Nenhum gravação encontrada
-            </p>
+        <div class="recording-list md-elevation-3">
+          <p class="recording--no-register" v-if="recordings.length === 0">
+            Nenhum gravação encontrada
+          </p>
 
-            <md-list v-if="recordings.length > 0">
-              <md-list-item v-for="recording in recordings">
-                <div class="md-list-item-text">
-                  <span>{{ recording.name }}</span>
-                  <p>{{ recording.date }}</p>
-                </div>
-                <md-button
-                  v-bind:href="recording.file"
-                  class="md-icon-button md-list-action"
-                  v-on:click="download(recording)"
-                  download
-                >
-                  <md-icon class="md-primary">cloud_download</md-icon>
-                </md-button>
-              </md-list-item>
-            </md-list>
-          </div>
+          <md-list v-if="recordings.length > 0">
+            <md-list-item v-for="recording in recordings">
+              <div class="md-list-item-text">
+                <span>{{ recording.name }}</span>
+                <p>{{ recording.date }}</p>
+              </div>
+              <md-button
+                v-bind:href="recording.file"
+                class="md-icon-button md-list-action"
+                v-on:click="download(recording)"
+                download
+              >
+                <md-icon class="md-primary">cloud_download</md-icon>
+              </md-button>
+            </md-list-item>
+          </md-list>
         </div>
       </div>
     </div>
