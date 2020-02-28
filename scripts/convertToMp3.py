@@ -1,4 +1,12 @@
+import sys
 from pydub import AudioSegment
-# TODO: Add args
-AudioSegment.from_wav("./2020-02-24_22-06-22.wav")
-  .export("./2020-02-24_22-06-22.mp3", format="mp3")
+from pydub.utils import which
+
+AudioSegment.converter = which("ffmpeg")
+
+originFile=sys.argv[1]
+destFile=sys.argv[2]
+
+sound = AudioSegment.from_file(originFile)
+sound = sound.set_channels(1)
+sound.export(destFile, format="mp3", bitrate="128k")

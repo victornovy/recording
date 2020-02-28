@@ -31,6 +31,10 @@
         margin-top: 2em;
       }
 
+      .recording--no-register {
+        padding: 2em;
+      }
+
       .txt-center {
         text-align: center;
       }
@@ -60,7 +64,11 @@
           <p v-if="isRecording">Gravando...</p>
 
           <div class="recording-list md-elevation-3">
-            <md-list>
+            <p class="recording--no-register" v-if="recordings.length === 0">
+              Nenhum gravação encontrada
+            </p>
+
+            <md-list v-if="recordings.length > 0">
               <md-list-item v-for="recording in recordings">
                 <div class="md-list-item-text">
                   <span>{{ recording.name }}</span>

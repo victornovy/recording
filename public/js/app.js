@@ -8,13 +8,11 @@ var app = new Vue({
   },
   methods: {
     startRecording: () => {
-      console.log('startRecording');
       app.isRecording = true;
 
       socket.emit('startRecording', 'HELLO WORLD');
     },
     stopRecording: () => {
-      console.log('stopRecording');
       app.isRecording = false;
       socket.emit('stopRecording', 'by WORLD');
     },
@@ -23,7 +21,6 @@ var app = new Vue({
     },
     recording: data => {
       app.isRecording = data.recording;
-      console.log('recording', data);
     },
     download: recording => {
       console.log(recording);
