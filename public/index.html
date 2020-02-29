@@ -48,7 +48,10 @@
           </p>
 
           <md-list v-if="recordings.length > 0">
-            <md-list-item v-for="recording in recordings">
+            <md-list-item
+              v-for="recording in recordings"
+              v-bind:key="recording.name"
+            >
               <div class="md-list-item-text">
                 <span>{{ recording.name }}</span>
                 <p>{{ recording.date }}</p>
@@ -56,7 +59,6 @@
               <md-button
                 v-bind:href="recording.file"
                 class="md-icon-button md-list-action"
-                v-on:click="download(recording)"
                 download
               >
                 <md-icon class="md-primary">cloud_download</md-icon>

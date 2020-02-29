@@ -21,9 +21,6 @@ var app = new Vue({
     },
     recording: data => {
       app.isRecording = data.isRecording;
-    },
-    download: recording => {
-      console.log(recording);
     }
   }
 });
