@@ -4,7 +4,7 @@ var app = new Vue({
   el: '#app',
   data: {
     isRecording: false,
-    recordings: [{ name: 'Teste', date: '2020-01-01' }]
+    recordings: []
   },
   methods: {
     startRecording: () => {
@@ -20,7 +20,7 @@ var app = new Vue({
       app.recordings = recordings;
     },
     recording: data => {
-      app.isRecording = data.recording;
+      app.isRecording = data.isRecording;
     },
     download: recording => {
       console.log(recording);

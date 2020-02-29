@@ -1,0 +1,18 @@
+.recording-container {
+  text-align: center;
+  min-width: 100%;
+  max-width: 400%;
+  padding: 1em;
+}
+
+.recording-list {
+  margin-top: 2em;
+}
+
+.recording--no-register {
+  padding: 2em;
+}
+
+.txt-center {
+  text-align: center;
+}

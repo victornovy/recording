@@ -18,27 +18,7 @@
       rel="stylesheet"
       href="https://unpkg.com/vue-material/dist/theme/default.css"
     />
-
-    <style>
-      .recording-container {
-        text-align: center;
-        min-width: 100%;
-        max-width: 400%;
-        padding: 1em;
-      }
-
-      .recording-list {
-        margin-top: 2em;
-      }
-
-      .recording--no-register {
-        padding: 2em;
-      }
-
-      .txt-center {
-        text-align: center;
-      }
-    </style>
+    <link rel="stylesheet" href="css/recording.css" />
   </head>
   <body>
     <div id="app" class="md-layout md-alignment-center">
@@ -64,7 +44,7 @@
 
         <div class="recording-list md-elevation-3">
           <p class="recording--no-register" v-if="recordings.length === 0">
-            Nenhum gravação encontrada
+            Nenhuma gravação encontrada
           </p>
 
           <md-list v-if="recordings.length > 0">
