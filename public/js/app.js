@@ -4,13 +4,14 @@ var app = new Vue({
   el: '#app',
   data: {
     isRecording: false,
-    recordings: []
+    recordings: [],
+    currentDevice: '',
+    devicesList: []
   },
   methods: {
     startRecording: () => {
       app.isRecording = true;
-
-      socket.emit('startRecording', 'HELLO WORLD');
+      socket.emit('startRecording', { deviceId: app.currentDevice });
     },
     stopRecording: () => {
       app.isRecording = false;
@@ -21,6 +22,10 @@ var app = new Vue({
     },
     recording: data => {
       app.isRecording = data.isRecording;
+    },
+    devices: devicesList => {
+      console.log(devicesList);
+      app.devicesList = devicesList;
     }
   }
 });
@@ -29,3 +34,4 @@ const socket = io(window.location.origin);
 
 socket.on('recording', app.recording);
 socket.on('list', app.getList);
+socket.on('devices', app.devices);

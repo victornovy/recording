@@ -22,11 +22,20 @@ export default class Recording {
 
     const hasProcess = !!this.currentProcess;
     this.emitRecording(hasProcess);
+    this.devicesList();
   }
 
   private listenStartRecording() {
-    this.socket.on('startRecording', () => {
-      this.currentProcess = spawn('python', ['./scripts/recording.py']);
+    this.socket.on('startRecording', (info) => {
+
+      if (!info.deviceId) {
+        return console.error('### [ERROR] Device not found');
+      }
+
+      this.currentProcess = spawn('python', [
+        './scripts/recording.py',
+        info.deviceId
+      ]);
 
       this.currentProcess.stdout.on('data', (info: any) => {
         if (info && info.indexOf('{') > -1) {
@@ -101,5 +110,18 @@ export default class Recording {
     });
 
     this.emitList();
+  }
+
+  private devicesList() {
+    const devicesSpawn = spawn('python', ['./scripts/devices.py']);
+
+    devicesSpawn.stdout.on('data', (devices: any) => {
+      devices = JSON.parse(devices);
+      this.socket.emit('devices', devices);
+    });;
+
+    devicesSpawn.on('close', (code: any) => {
+      console.log(`exit devices list ${code}`);
+    });
   }
 }

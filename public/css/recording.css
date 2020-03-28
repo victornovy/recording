@@ -16,3 +16,9 @@
 .txt-center {
   text-align: center;
 }
+
+.devices-list {
+  max-width: 300px;
+  margin: 1em auto;
+  text-align: center;
+}

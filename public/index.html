@@ -24,10 +24,25 @@
     <div id="app" class="md-layout md-alignment-center">
       <div class="recording-container">
         <h1>Recording</h1>
+
+        <div class="devices-list">
+          <md-field>
+            <label for="devicesList">Devices</label>
+            <md-select v-model="currentDevice" name="currentDevice" id="currentDevice">
+              <md-option
+                v-for="device in devicesList"
+                v-bind:key="device.id"
+                v-bind:value="device.id">
+                {{ device.name }}
+              </md-option>
+            </md-select>
+          </md-field>
+        </div>
+
         <md-button
           v-on:click="startRecording"
           class="md-fab md-primary"
-          v-bind:disabled="isRecording"
+          v-bind:disabled="isRecording || !currentDevice"
         >
           <md-icon>play_arrow</md-icon>
         </md-button>
