@@ -1,8 +1,6 @@
 import express from 'express';
 import socketIO from 'socket.io';
 import http from 'http';
-import path from 'path';
-import Recording from './socket/recording';
 
 const port: number = 3000;
 
@@ -10,19 +8,14 @@ class App {
   private port: number;
   private server: http.Server;
   private io: socketIO.Server;
-  private recording: Recording;
 
   constructor(port: number) {
     this.port = port;
 
     const app = express();
-    app.use(express.static(path.join(__dirname, '/public')));
-    app.use(express.static('audios/mp3'));
 
     this.server = new http.Server(app);
     this.io = socketIO(this.server);
-
-    this.recording = new Recording();
   }
 
   public start() {
@@ -35,8 +28,35 @@ class App {
   private onConnect() {
     this.io.on('connection', (socket: socketIO.Socket) => {
       console.log('User connected : ' + socket.id);
+      const isMachine = socket.handshake.query.name === 'machine';
+      if (isMachine) {
+        this.io.emit('machineAvaible', isMachine);
+      } else {
+        this.io.emit('storeConnect');
+      }
 
-      this.recording.start(socket);
+      socket.on('disconnect', () => {
+        const isMachine = socket.handshake.query.name === 'machine';
+        if (isMachine) {
+          this.io.emit('machineAvaible', false);
+        }
+      });
+
+      socket.on('list', (data) => {
+        this.io.emit('list', data);
+      });
+
+      socket.on('devices', (data) => {
+        this.io.emit('devices', data);
+      });
+
+      socket.on('startRecording', (data) => {
+        this.io.emit('startRecording', data);
+      });
+
+      socket.on('stopRecording', (data) => {
+        this.io.emit('stopRecording', data);
+      });
     });
   }
 }

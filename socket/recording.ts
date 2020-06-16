@@ -1,9 +1,10 @@
 import socketIO from 'socket.io';
+import * as socketIOClient from 'socket.io-client';
 import fs from 'fs';
 import { spawn } from 'child_process';
 
 export default class Recording {
-  private socket: socketIO.Socket;
+  private socket: SocketIOClient.Socket;
   private currentProcess: any;
   private infoFile: { name: string };
 
@@ -13,7 +14,7 @@ export default class Recording {
     };
   }
 
-  start(socket: socketIO.Socket) {
+  start(socket: SocketIOClient.Socket) {
     this.socket = socket;
 
     this.listenStartRecording();
@@ -27,7 +28,7 @@ export default class Recording {
 
   private listenStartRecording() {
     this.socket.on('startRecording', (info) => {
-
+      console.log('asfsadfsadf');
       if (!info.deviceId) {
         return console.error('### [ERROR] Device not found');
       }
@@ -66,7 +67,7 @@ export default class Recording {
     });
   }
 
-  private getList() {
+  getList() {
     let files: any = fs.readdirSync('./audios/mp3');
     files = files
       .filter((file: any) => {
@@ -82,11 +83,11 @@ export default class Recording {
     return files;
   }
 
-  private emitList() {
+  emitList() {
     this.socket.emit('list', this.getList());
   }
 
-  private emitRecording(isRecording: boolean) {
+  emitRecording(isRecording: boolean) {
     this.socket.emit('recording', { isRecording });
   }
 
@@ -112,7 +113,7 @@ export default class Recording {
     this.emitList();
   }
 
-  private devicesList() {
+  devicesList() {
     const devicesSpawn = spawn('python', ['./scripts/devices.py']);
 
     devicesSpawn.stdout.on('data', (devices: any) => {

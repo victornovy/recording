@@ -6,7 +6,8 @@ var app = new Vue({
     isRecording: false,
     recordings: [],
     currentDevice: '',
-    devicesList: []
+    devicesList: [],
+    avaibleToRecord: false
   },
   methods: {
     startRecording: () => {
@@ -24,14 +25,21 @@ var app = new Vue({
       app.isRecording = data.isRecording;
     },
     devices: devicesList => {
-      console.log(devicesList);
       app.devicesList = devicesList;
+    },
+    machineAvaible: avaible => {
+      app.avaibleToRecord = avaible;
+      if (!avaible) {
+        app.devicesList = false;
+        app.recordings = false;
+      }
     }
   }
 });
 
-const socket = io(window.location.origin);
+const socket = io('http://localhost:3000');
 
 socket.on('recording', app.recording);
 socket.on('list', app.getList);
 socket.on('devices', app.devices);
+socket.on('machineAvaible', app.machineAvaible);

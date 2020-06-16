@@ -6,6 +6,7 @@
   "scripts": {
     "tsc": "tsc",
     "dev": "ts-node-dev --respawn --transpileOnly ./app.ts",
+    "dev-machine": "ts-node-dev --respawn --transpileOnly ./machine.ts",
     "prod": "tsc && node ./build/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,8 +15,10 @@
   "dependencies": {
     "@types/express": "^4.17.2",
     "@types/socket.io": "^2.1.4",
+    "@types/socket.io-client": "^1.4.33",
     "express": "^4.17.1",
     "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.8.2"
   }
